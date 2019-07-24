@@ -15,10 +15,10 @@ namespace AdventOfCode
 
         static void Main()
         {
-            Get();
+            LoadData();
             InitPoints();
             InitConnections();
-           // PrintNodes();
+            PrintNodes();
 
             Node firstNode = FindFirstNode();
             List<Node> args = new List<Node>();
@@ -37,20 +37,21 @@ namespace AdventOfCode
             }
             return firstNode;
         }
-
         private static void PrintNodes()
         {
             foreach (var item in nodes)
             {
-
+                Console.WriteLine("=====");
                 foreach (var innerNodes in item.Previous)
                     Console.Write(" " + innerNodes.Value);
-                Console.Write(" <========== ");
-                Console.Write("NODE " + item.Value);
-                Console.Write(" ==========> ");
+
+                Console.WriteLine("\n");
+                Console.WriteLine("\t\tNODE " + item.Value);
                 foreach (var innerNodes in item.Next)
                     Console.Write(" " + innerNodes.Value);
-                Console.WriteLine();
+
+                Console.WriteLine("\n=====");
+
             }
         }
 
@@ -133,9 +134,9 @@ namespace AdventOfCode
             }
         }
 
-        private static void Get()
+        private static void LoadData()
         {
-            string path = @"C:\Users\stanislav.shalamov\OneDrive\Advent of Code\Puzzle 7\Input.txt";
+            string path = @"..\Input.txt";
             List<string> inputData = new List<string>();
 
             using (StreamReader reader = new StreamReader(path))
