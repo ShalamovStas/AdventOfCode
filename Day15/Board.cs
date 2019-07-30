@@ -6,28 +6,31 @@ namespace Day15
 {
     class Board
     {
-        public List<Unit> Units { get; set; }
+        public List<Node> Nodes { get; set; }
         public Board()
         {
-            Units = new List<Unit>();
+            Nodes = new List<Node>();
         }
-
     }
 
     class Unit
     {
         public char Name { get; set; }
-        public int X{ get; set; }
-        public int Y{ get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
     }
 
-
-    class Point
+    class Node
     {
-        public int X{ get; set; }
-        public int Y{ get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
+        public char Symbol { get; set; }
+        public Unit Unit { get; set; }
+        public Node Left { get; set; }
+        public Node Right { get; set; }
+        public Node Top { get; set; }
+        public Node Bottom { get; set; }
 
-        public string MyProperty { get; set; }
     }
 
 }
