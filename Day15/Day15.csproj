@@ -6,40 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="obj\Debug\netcoreapp2.1\Day15.AssemblyInfo.cs" />
-    <Compile Include="obj\Release\netcoreapp2.1\Day15.AssemblyInfo.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="bin\Debug\netcoreapp2.1\Day15.deps.json" />
-    <Content Include="bin\Debug\netcoreapp2.1\Day15.runtimeconfig.dev.json" />
-    <Content Include="bin\Debug\netcoreapp2.1\Day15.runtimeconfig.json" />
-    <Content Include="bin\Debug\netcoreapp2.1\in1.txt" />
-    <Content Include="bin\Debug\netcoreapp2.1\input.txt" />
-    <Content Include="obj\Day15.csproj.nuget.dgspec.json" />
-    <Content Include="obj\Debug\netcoreapp2.1\Day15.csproj.FileListAbsolute.txt" />
-    <Content Include="obj\project.assets.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="bin\Debug\netcoreapp2.1\Day15.dll" />
-    <None Include="bin\Debug\netcoreapp2.1\Day15.pdb" />
-    <None Include="obj\Day15.csproj.nuget.cache" />
-    <None Include="obj\Day15.csproj.nuget.g.props" />
-    <None Include="obj\Day15.csproj.nuget.g.targets" />
-    <None Include="obj\Debug\netcoreapp2.1\Day15.AssemblyInfoInputs.cache" />
-    <None Include="obj\Debug\netcoreapp2.1\Day15.assets.cache" />
-    <None Include="obj\Debug\netcoreapp2.1\Day15.csproj.CoreCompileInputs.cache" />
-    <None Include="obj\Debug\netcoreapp2.1\Day15.csprojAssemblyReference.cache" />
-    <None Include="obj\Debug\netcoreapp2.1\Day15.dll" />
-    <None Include="obj\Debug\netcoreapp2.1\Day15.pdb" />
-    <None Include="obj\Release\netcoreapp2.1\Day15.AssemblyInfoInputs.cache" />
-    <None Include="obj\Release\netcoreapp2.1\Day15.assets.cache" />
-    <None Include="obj\Release\netcoreapp2.1\Day15.csproj.CoreCompileInputs.cache" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="bin\Release\netcoreapp2.1\" />
+    <Compile Remove="bin\**" />
+    <Compile Remove="obj\**" />
+    <EmbeddedResource Remove="bin\**" />
+    <EmbeddedResource Remove="obj\**" />
+    <None Remove="bin\**" />
+    <None Remove="obj\**" />
   </ItemGroup>
 
 </Project>
