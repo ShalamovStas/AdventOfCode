@@ -12,41 +12,49 @@ namespace Day15
             Board board = InitBoard();
 
             List<Node> targetNodes = FindPoints(board);
-            Node startNode = board.Nodes.Where(n => n.Unit != null).First();
-            FindWays(startNode, targetNodes);
+            List<Node> unitsList = board.Nodes.Where(p => p.Unit != null).ToList();
+            Node[] startNode = board.Nodes
+                .Where(n => n.Unit != null)
+                .Where(n => n.Unit.Name == 'E').ToArray();
+            var avaliableWays = FindWays(startNode, targetNodes, unitsList);
 
         }
 
-        private static void FindWays(Node startNode, List<Node> targetNodes)
+        private static List<Branch> FindWays(Node[] startNodes, List<Node> targetNodes, List<Node> avoidthisNodes)
         {
             Node first = targetNodes.First();
             List<Point> visited = new List<Point>();
             List<Point> branchWay = new List<Point>();
-            visited.Add(new Point { X = startNode.X, Y = startNode.Y });
+            visited.AddRange(avoidthisNodes.Select(s => s.Point));
             List<Branch> successBranchList = new List<Branch>();
 
-            foreach (var side in startNode.Sides)
+            foreach (var startNode in startNodes)
             {
-                if (side != null)
-                    ExploreSide(side, first, visited, successBranchList, branchWay);
+                foreach (var side in startNode.Sides)
+                {
+                    if (side != null)
+                        ExploreSide(side, first, visited, successBranchList, branchWay);
+                }
             }
+
+            return successBranchList;
         }
 
         private static void ExploreSide(Node node, Node target, List<Point> visited,
             List<Branch> successPathList, List<Point> branchWay)
         {
-            if (node.X == target.X && node.Y == target.Y)
+            if (node.Point.Equals(target.Point))
             {
                 var branch = new Branch() { Way = branchWay };
-                branch.Way.Add(new Point { X = node.X, Y = node.Y });
+                branch.Way.Add(node.Point);
                 successPathList.Add(branch);
                 return;
             }
 
-            if (visited.Where(p => p.X == node.X && p.Y == node.Y).Count() != 0)
+            if (visited.Where(p => p.Equals(node.Point)).Count() != 0)
                 return;
-            visited.Add(new Point { X = node.X, Y = node.Y });
-            branchWay.Add(new Point { X = node.X, Y = node.Y });
+            visited.Add(node.Point);
+            branchWay.Add(node.Point);
 
             foreach (var side in node.Sides)
             {
@@ -58,6 +66,17 @@ namespace Day15
             }
         }
 
+
+        //
+        // Summary:
+        //     Find points next to the unit (?): 
+        //
+        //      #######
+        //      #E....#
+        //      #..?#?#
+        //      #.?G#G#
+        //      #######
+        //
         private static List<Node> FindPoints(Board board)
         {
             List<Node> targetNodes = new List<Node>();
@@ -77,7 +96,6 @@ namespace Day15
                 if (node.Left != null)
                     targetNodes.Add(node.Left);
             }
-
             return targetNodes;
         }
 
@@ -86,7 +104,7 @@ namespace Day15
             int lineIndex = 0;
             foreach (var unit in board.Nodes)
             {
-                if (unit.Y > lineIndex)
+                if (unit.Point.Y > lineIndex)
                 {
                     Console.WriteLine();
                     lineIndex++;
@@ -125,10 +143,10 @@ namespace Day15
                     if (line[x] == '#')
                         continue;
 
-                    Node node = new Node() { X = x, Y = y, Symbol = '.' };
+                    Node node = new Node() { Point = new Point(x, y), Symbol = '.' };
 
                     if (line[x] == 'G' || line[x] == 'E')
-                        node.Unit = new Unit() { X = x, Y = y, Name = line[x] };
+                        node.Unit = new Unit() { Point = new Point(x, y), Name = line[x] };
 
                     board.Nodes.Add(node);
                 }
@@ -137,19 +155,19 @@ namespace Day15
             foreach (var node in board.Nodes)
             {
                 node.Top = board.Nodes
-                    .Where(n => n.X == node.X && n.Y == node.Y - 1 && n.Symbol != '#')
+                    .Where(n => n.Point.X == node.Point.X && n.Point.Y == node.Point.Y - 1 && n.Symbol != '#')
                     .FirstOrDefault();
 
                 node.Bottom = board.Nodes
-                    .Where(n => n.X == node.X && n.Y == node.Y + 1 && n.Symbol != '#')
+                    .Where(n => n.Point.X == node.Point.X && n.Point.Y == node.Point.Y + 1 && n.Symbol != '#')
                     .FirstOrDefault();
 
                 node.Left = board.Nodes
-                    .Where(n => n.X == node.X + 1 && n.Y == node.Y && n.Symbol != '#')
+                    .Where(n => n.Point.X == node.Point.X + 1 && n.Point.Y == node.Point.Y && n.Symbol != '#')
                     .FirstOrDefault();
 
                 node.Right = board.Nodes
-                    .Where(n => n.X == node.X - 1 && n.Y == node.Y && n.Symbol != '#')
+                    .Where(n => n.Point.X == node.Point.X - 1 && n.Point.Y == node.Point.Y && n.Symbol != '#')
                     .FirstOrDefault();
             }
 

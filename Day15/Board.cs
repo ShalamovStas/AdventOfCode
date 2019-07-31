@@ -16,14 +16,12 @@ namespace Day15
     class Unit
     {
         public char Name { get; set; }
-        public int X { get; set; }
-        public int Y { get; set; }
+        public Point Point { get; set; }
     }
 
     class Node
     {
-        public int X { get; set; }
-        public int Y { get; set; }
+        public Point Point { get; set; }
         public char Symbol { get; set; }
         public Unit Unit { get; set; }
         public Node Left { get; set; }
@@ -39,8 +37,13 @@ namespace Day15
         }
     }
 
-    class Point
+    struct Point
     {
+        public Point(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
         public int X { get; set; }
         public int Y { get; set; }
     }
