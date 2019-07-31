@@ -20,33 +20,41 @@ namespace Day15
         private static void FindWays(Node startNode, List<Node> targetNodes)
         {
             Node first = targetNodes.First();
-            List<Point> pathList = new List<Point>();
+            List<Point> visited = new List<Point>();
+            List<Point> branchWay = new List<Point>();
+            visited.Add(new Point { X = startNode.X, Y = startNode.Y });
             List<Branch> successBranchList = new List<Branch>();
 
             foreach (var side in startNode.Sides)
             {
                 if (side != null)
-                    ExploreSide(side, first, pathList, successBranchList);
+                    ExploreSide(side, first, visited, successBranchList, branchWay);
             }
         }
 
-        private static void ExploreSide(Node node, Node target, List<Point> pathList, List<Branch> successPathList)
+        private static void ExploreSide(Node node, Node target, List<Point> visited,
+            List<Branch> successPathList, List<Point> branchWay)
         {
             if (node.X == target.X && node.Y == target.Y)
             {
-                successPathList.Add(new Branch { Way = pathList.ToList() });
+                var branch = new Branch() { Way = branchWay };
+                branch.Way.Add(new Point { X = node.X, Y = node.Y });
+                successPathList.Add(branch);
                 return;
             }
 
-            if (pathList.Where(p => p.X == node.X && p.Y == node.Y).Count() != 0)
+            if (visited.Where(p => p.X == node.X && p.Y == node.Y).Count() != 0)
                 return;
-            pathList.Add(new Point { X = node.X, Y = node.Y });
-
+            visited.Add(new Point { X = node.X, Y = node.Y });
+            branchWay.Add(new Point { X = node.X, Y = node.Y });
 
             foreach (var side in node.Sides)
             {
                 if (side != null)
-                    ExploreSide(side, target, pathList, successPathList);
+                {
+                    List<Point> nextWay = branchWay.ToList();
+                    ExploreSide(side, target, visited, successPathList, nextWay);
+                }
             }
         }
 
