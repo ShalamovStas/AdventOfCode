@@ -132,7 +132,7 @@ namespace Day15
         private static Board InitBoard()
         {
             //string[] input = File.ReadAllLines("input.txt");
-            string[] input = File.ReadAllLines("in1.txt");
+            string[] input = File.ReadAllLines("../../../in1.txt");
             Board board = new Board();
 
             for (int y = 0; y < input.Length; y++)
