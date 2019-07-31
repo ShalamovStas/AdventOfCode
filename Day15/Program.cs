@@ -12,9 +12,42 @@ namespace Day15
             Board board = InitBoard();
 
             List<Node> targetNodes = FindPoints(board);
+            Node startNode = board.Nodes.Where(n => n.Unit != null).First();
+            FindWays(startNode, targetNodes);
+
+        }
+
+        private static void FindWays(Node startNode, List<Node> targetNodes)
+        {
+            Node first = targetNodes.First();
+            List<Point> pathList = new List<Point>();
+            List<Branch> successBranchList = new List<Branch>();
+
+            foreach (var side in startNode.Sides)
+            {
+                if (side != null)
+                    ExploreSide(side, first, pathList, successBranchList);
+            }
+        }
+
+        private static void ExploreSide(Node node, Node target, List<Point> pathList, List<Branch> successPathList)
+        {
+            if (node.X == target.X && node.Y == target.Y)
+            {
+                successPathList.Add(new Branch { Way = pathList.ToList() });
+                return;
+            }
+
+            if (pathList.Where(p => p.X == node.X && p.Y == node.Y).Count() != 0)
+                return;
+            pathList.Add(new Point { X = node.X, Y = node.Y });
 
 
-
+            foreach (var side in node.Sides)
+            {
+                if (side != null)
+                    ExploreSide(side, target, pathList, successPathList);
+            }
         }
 
         private static List<Node> FindPoints(Board board)
