@@ -17,7 +17,7 @@ namespace Day15
                 .Where(n => n.Unit != null)
                 .Where(n => n.Unit.Name == 'E').ToArray();
             var avaliableWays = FindWays(startNode, targetNodes, unitsList);
-
+            Console.WriteLine();
         }
 
         private static List<Branch> FindWays(Node[] startNodes, List<Node> targetNodes, List<Node> avoidthisNodes)
