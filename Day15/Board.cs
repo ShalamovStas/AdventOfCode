@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Day15
 {
-    class Board
+   public class Board
     {
         public List<Node> Nodes { get; set; }
         public Board()
@@ -13,13 +13,13 @@ namespace Day15
         }
     }
 
-    class Unit
+    public class Unit
     {
         public char Name { get; set; }
         public Point Point { get; set; }
     }
 
-    class Node
+    public class Node
     {
         public Point Point { get; set; }
         public char Symbol { get; set; }
@@ -37,7 +37,7 @@ namespace Day15
         }
     }
 
-    struct Point
+    public struct Point
     {
         public Point(int x, int y)
         {
@@ -48,7 +48,7 @@ namespace Day15
         public int Y { get; set; }
     }
 
-    class Branch
+    public class Branch
     {
         public List<Point> Way { get; set; }
         public Branch()
