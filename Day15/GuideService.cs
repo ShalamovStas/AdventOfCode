@@ -7,6 +7,8 @@ namespace Day15
 {
     public class GuideService
     {
+        public int Count { get; set; }
+
         public List<Branch> FindWays(Node[] startNodes, Node[] targetNodes, Node[] unitsList)
         {
             Node first = targetNodes.First();
@@ -26,8 +28,10 @@ namespace Day15
             return successBranchList;
         }
 
-        private static void ExploreSide(Node node, Node target, List<Branch> successPathList, List<Point> branchWay, Point[] avoidThisPoint)
+        private void ExploreSide(Node node, Node target, List<Branch> successPathList, List<Point> branchWay, Point[] avoidThisPoint)
         {
+
+
             if (node.Point.Equals(target.Point))
             {
                 var branch = new Branch() { Way = branchWay };
