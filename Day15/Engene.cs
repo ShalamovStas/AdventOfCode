@@ -21,6 +21,7 @@ namespace Day15
                 .Where(n => n.Unit != null)
                 .Where(n => n.Unit.Name == 'E').ToArray();
 
+            guideService.Board = board;
             var avaliableWays = guideService.FindWays(startNode, targetNodes, unitsList);
 
         }

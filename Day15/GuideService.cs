@@ -2,41 +2,81 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace Day15
 {
     public class GuideService
     {
-        public int Count { get; set; }
+        public int MinWayLength { get; set; }
+        public Board Board { get; set; }
 
+        //startNodes - точки из которых нужно проложить путь
+        //targetNodes - в которые нужно проложить путь
+        //unitsList - список юнитов - через эти точки путь прокладывать нельзя
         public List<Branch> FindWays(Node[] startNodes, Node[] targetNodes, Node[] unitsList)
         {
-            Node first = targetNodes.First();
             List<Point> branchWay = new List<Point>();
             List<Branch> successBranchList = new List<Branch>();
             Point[] avoidThisPoint = unitsList.Select(p => p.Point).ToArray();
 
-            foreach (var startNode in startNodes)
+            foreach (var targetNode in targetNodes)
             {
-                foreach (var topLeftRightButtomNode in startNode.Sides)
+                foreach (var startNode in startNodes)
                 {
-                    if (topLeftRightButtomNode != null)
-                        ExploreSide(topLeftRightButtomNode, first, successBranchList, branchWay, avoidThisPoint);
+                    foreach (var topLeftRightButtomNode in startNode.Sides)
+                    {
+                        if (topLeftRightButtomNode != null)
+                        {
+                            List<Point> nextWay = branchWay.ToList();
+                            ExploreSide(topLeftRightButtomNode, targetNode, successBranchList, nextWay, avoidThisPoint);
+                        }
+                    }
                 }
             }
+           // PrintWay(successBranchList);
+
+            PrintAnimWay(successBranchList);
 
             return successBranchList;
         }
 
+        private void PrintAnimWay(List<Branch> successBranchList)
+        {
+            Console.CursorVisible = false;
+            foreach (Branch branch in successBranchList)
+            {
+                foreach (var step in branch.Way)
+                {
+                    PrintPoint(step);
+                }
+            }
+        }
+
+        private void PrintPoint(Point step)
+        {
+            Console.SetCursorPosition(0, 0);
+            Console.WriteLine("#######");
+            Console.WriteLine("#E....#");
+            Console.WriteLine("#...#.#");
+            Console.WriteLine("#G.G#G#");
+            Console.WriteLine("#######");
+            Console.SetCursorPosition(step.X, step.Y);
+            Console.Write("+");
+            Thread.Sleep(2000);
+        }
         private void ExploreSide(Node node, Node target, List<Branch> successPathList, List<Point> branchWay, Point[] avoidThisPoint)
         {
-
+            // if (MinWayLength != 0)
+            //     if (branchWay.Count() > MinWayLength)
+            //         return;
 
             if (node.Point.Equals(target.Point))
             {
-                var branch = new Branch() { Way = branchWay };
-                branch.Way.Add(node.Point);
+                branchWay.Add(node.Point);
+                var branch = new Branch() { Way = branchWay.ToArray() };
                 successPathList.Add(branch);
+                MinWayLength = branchWay.Count();
                 return;
             }
 
@@ -58,6 +98,18 @@ namespace Day15
             }
         }
 
+        private void PrintWay(List<Branch> successBranchList)
+        {
+            //Print ways
+            foreach (var branch in successBranchList)
+            {
+                Console.WriteLine("Branch");
+                foreach (var point in branch.Way)
+                {
+                    Console.WriteLine($"[{point.X}, {point.Y}]");
+                }
+            }
 
+        }
     }
 }

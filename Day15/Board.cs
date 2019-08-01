@@ -50,11 +50,7 @@ namespace Day15
 
     public class Branch
     {
-        public List<Point> Way { get; set; }
-        public Branch()
-        {
-            Way = new List<Point>();
-        }
+        public Point[] Way { get; set; }
     }
 
 }
