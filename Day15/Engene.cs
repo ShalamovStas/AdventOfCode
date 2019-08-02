@@ -13,16 +13,16 @@ namespace Day15
         public void Run()
         {
             Board board = boardExplorerService.InitBoard();
-            Node[] targetNodes = boardExplorerService.GetTargetNodes(board);
+            Node[] targetNodes = boardExplorerService.GetTargetNodes(board, 'G');
 
             Node[] unitsList = board.Nodes.Where(p => p.Unit != null).ToArray();
 
-            Node[] startNode = board.Nodes
+            Node startNode = board.Nodes
                 .Where(n => n.Unit != null)
-                .Where(n => n.Unit.Name == 'E').ToArray();
+                .Where(n => n.Unit.Name == 'E').First();
 
             guideService.Board = board;
-            var avaliableWays = guideService.FindWays(startNode, targetNodes, unitsList);
+            var avaliableWays = guideService.FindWaysFromCurrentUnit(startNode, targetNodes, unitsList);
 
         }
     }

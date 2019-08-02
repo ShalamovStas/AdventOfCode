@@ -52,5 +52,4 @@ namespace Day15
     {
         public Point[] Way { get; set; }
     }
-
 }

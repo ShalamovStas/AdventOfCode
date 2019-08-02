@@ -10,7 +10,7 @@ namespace Day15
     {
         
         // Summary:
-        //     Find points next to the unit (?): 
+        //     Find points next to the units: 
         //
         //      #######
         //      #E....#
@@ -18,13 +18,13 @@ namespace Day15
         //      #.?G#G#
         //      #######
         //
-        public  Node[] GetTargetNodes(Board board)
+        public  Node[] GetTargetNodes(Board board, char unitLabel)
         {
             List<Node> targetNodes = new List<Node>();
 
             var nodes = board.Nodes
                 .Where(n => n.Unit != null)
-                .Where(n => n.Unit.Name == 'G').ToList();
+                .Where(n => n.Unit.Name == unitLabel).ToList();
 
             foreach (var node in nodes)
             {
