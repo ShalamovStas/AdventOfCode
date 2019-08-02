@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -20,6 +21,9 @@ namespace Day15
             List<Branch> successBranchList = new List<Branch>();
             Point[] avoidThisPoint = unitsList.Select(p => p.Point).ToArray();
 
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             foreach (var targetNode in targetNodes)
             {
                 foreach (var topLeftRightButtomNode in startNode.Sides)
@@ -31,6 +35,10 @@ namespace Day15
                     }
                 }
             }
+            stopwatch.Stop();
+            Console.WriteLine($"ElapsedTime: {stopwatch.Elapsed}");
+            Console.WriteLine();
+            Console.WriteLine();
             PrintWay(successBranchList);
 
             return successBranchList;
@@ -40,9 +48,9 @@ namespace Day15
 
         private void ExploreSide(Node node, Node target, List<Branch> successPathList, List<Point> branchWay, Point[] avoidThisPoint)
         {
-            //if (MinWayLength != 0)
-            //    if (branchWay.Count() > MinWayLength)
-            //        return;
+            if (MinWayLength != 0)
+                if (branchWay.Count() > MinWayLength)
+                    return;
 
             if (node.Point.Equals(target.Point))
             {
@@ -73,6 +81,7 @@ namespace Day15
 
         private void PrintWay(List<Branch> successBranchList)
         {
+            Console.BufferHeight = successBranchList.Count() + 50;
             //Print ways
             foreach (var branch in successBranchList)
             {
@@ -83,6 +92,7 @@ namespace Day15
                 }
             }
 
+            Console.WriteLine($"Count: {successBranchList.Count()}");
         }
     }
 }

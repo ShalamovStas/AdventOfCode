@@ -43,7 +43,7 @@ namespace Day15
         public Board InitBoard()
         {
             //string[] input = File.ReadAllLines("input.txt");
-            string[] input = File.ReadAllLines("../../../in1.txt");
+            string[] input = File.ReadAllLines("../../../in2.txt");
             Board board = new Board();
 
             for (int y = 0; y < input.Length; y++)
