@@ -15,7 +15,7 @@ namespace Day15
 
     public class Unit
     {
-        public char Name { get; set; }
+        public UnitLabel Label { get; set; }
         public Point Point { get; set; }
     }
 
@@ -51,5 +51,11 @@ namespace Day15
     public class Branch
     {
         public Point[] Way { get; set; }
+    }
+
+    public enum UnitLabel
+    {
+        G = 0,
+        E
     }
 }

@@ -18,13 +18,13 @@ namespace Day15
         //      #.?G#G#
         //      #######
         //
-        public  Node[] GetTargetNodes(Board board, char unitLabel)
+        public  Node[] GetTargetNodes(Board board, UnitLabel unitLabel)
         {
             List<Node> targetNodes = new List<Node>();
 
             var nodes = board.Nodes
                 .Where(n => n.Unit != null)
-                .Where(n => n.Unit.Name == unitLabel).ToList();
+                .Where(n => n.Unit.Label == unitLabel).ToList();
 
             foreach (var node in nodes)
             {
@@ -51,13 +51,22 @@ namespace Day15
                 var line = input[y];
                 for (int x = 0; x < line.Length; x++)
                 {
+                    var s = line[x];
                     if (line[x] == '#')
                         continue;
 
                     Node node = new Node() { Point = new Point(x, y), Symbol = '.' };
 
-                    if (line[x] == 'G' || line[x] == 'E')
-                        node.Unit = new Unit() { Point = new Point(x, y), Name = line[x] };
+                    if (line[x] == 'G')
+                    {
+                        node.Unit = new Unit() { Point = new Point(x, y) };
+                        node.Unit.Label = UnitLabel.G;
+                    }
+                    if(line[x] == 'E')
+                    {
+                        node.Unit = new Unit() { Point = new Point(x, y) };
+                        node.Unit.Label = UnitLabel.E;
+                    }
 
                     board.Nodes.Add(node);
                 }
@@ -74,45 +83,15 @@ namespace Day15
                     .FirstOrDefault();
 
                 node.Left = board.Nodes
-                    .Where(n => n.Point.X == node.Point.X + 1 && n.Point.Y == node.Point.Y && n.Symbol != '#')
+                    .Where(n => n.Point.X == node.Point.X - 1 && n.Point.Y == node.Point.Y && n.Symbol != '#')
                     .FirstOrDefault();
 
                 node.Right = board.Nodes
-                    .Where(n => n.Point.X == node.Point.X - 1 && n.Point.Y == node.Point.Y && n.Symbol != '#')
+                    .Where(n => n.Point.X == node.Point.X + 1 && n.Point.Y == node.Point.Y && n.Symbol != '#')
                     .FirstOrDefault();
             }
 
             return board;
-        }
-
-        public static void PrintBoard(Board board)
-        {
-            int lineIndex = 0;
-            foreach (var unit in board.Nodes)
-            {
-                if (unit.Point.Y > lineIndex)
-                {
-                    Console.WriteLine();
-                    lineIndex++;
-                }
-                if (unit.Unit != null || unit.Unit.Name == 'G')
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write(unit.Symbol);
-                    Console.ForegroundColor = ConsoleColor.White;
-                }
-                else
-                if (unit.Unit != null || unit.Unit.Name == 'E')
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write(unit.Symbol);
-                    Console.ForegroundColor = ConsoleColor.White;
-                }
-                else
-                {
-                    Console.Write(unit.Symbol);
-                }
-            }
         }
     }
 }

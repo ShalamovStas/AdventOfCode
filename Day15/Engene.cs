@@ -7,23 +7,53 @@ namespace Day15
 {
     class Engene
     {
-        private BoardExplorerService boardExplorerService = new BoardExplorerService();
-        private GuideService guideService = new GuideService();
+        private BoardExplorerService boardExplorerService;
+        private GuideService guideService;
+        private PrinterService printerService;
+
+        private Node[] nodesWithUnits;
+        private Board board;
 
         public void Run()
         {
-            Board board = boardExplorerService.InitBoard();
-            Node[] targetNodes = boardExplorerService.GetTargetNodes(board, 'G');
+            boardExplorerService = new BoardExplorerService();
+            board = boardExplorerService.InitBoard();
 
-            Node[] unitsList = board.Nodes.Where(p => p.Unit != null).ToArray();
+            guideService = new GuideService() { Board = board };
+            printerService = new PrinterService();
 
-            Node startNode = board.Nodes
-                .Where(n => n.Unit != null)
-                .Where(n => n.Unit.Name == 'E').First();
+            printerService.PrintBoard(board);
 
-            guideService.Board = board;
-            var avaliableWays = guideService.FindWaysFromCurrentUnit(startNode, targetNodes, unitsList);
+            nodesWithUnits = board.Nodes.Where(p => p.Unit != null).ToArray();
 
+            RunRound();
+           
+            Console.ReadKey();
+        }
+
+        private void RunRound()
+        {
+            foreach (var node in nodesWithUnits)
+            {
+                var oppositeUnitLabel = GetOppositeUnitLabel(node.Unit.Label);
+                Node[] targetNodes = boardExplorerService.GetTargetNodes(board, oppositeUnitLabel);
+                var avaliableWays = guideService.FindWaysFromCurrentUnit(node, targetNodes, nodesWithUnits);
+                var moveToThisPoint = guideService.GetNextNodeToMove(avaliableWays);
+                guideService.MoveUnit(board, node, moveToThisPoint);
+
+                printerService.PrintBoard(board);
+                Console.ReadKey();
+            }
+
+
+        }
+
+        private UnitLabel GetOppositeUnitLabel(UnitLabel currentUnitLabel)
+        {
+            if (currentUnitLabel == UnitLabel.E)
+                return UnitLabel.G;
+            else
+                return UnitLabel.E;
         }
     }
 }

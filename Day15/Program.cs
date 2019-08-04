@@ -9,9 +9,8 @@ namespace Day15
     {
         static void Main(string[] args)
         {
-
             new Engene().Run();
-            
+
 
         }
 
