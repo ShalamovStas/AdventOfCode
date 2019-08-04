@@ -58,4 +58,12 @@ namespace Day15
         G = 0,
         E
     }
+
+    public enum MoveDestination
+    {
+        Right = 0,
+        Left,
+        Top,
+        Buttom
+    }
 }

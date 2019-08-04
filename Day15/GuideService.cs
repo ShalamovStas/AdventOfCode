@@ -51,17 +51,43 @@ namespace Day15
             nextNode.Unit = unit;
         }
 
-        public Point GetNextNodeToMove(List<Branch> avaliableWays)
+        public Point GetNextNodeToMove(Point currentPosition, List<Branch> avaliableWays)
         {
-            var nextPoint = avaliableWays
+
+            //MoveDestination = GetMoveDestination();
+            var theShortestWaysList = avaliableWays
                 .GroupBy(i => i.Way.Length)
                 .OrderBy(i => i.Key)
                 .First()
-                .First()
-                .Way
-                .First();
-                
-            return nextPoint;
+                .ToArray();
+
+
+            var orderReading = GetOrderReadingForPoint(currentPosition);
+
+            foreach (var orderReadingPoint in orderReading)
+            {
+                foreach (var currentWay in theShortestWaysList)
+                {
+                    var item = currentWay.Way.Where(p => p.Equals(orderReadingPoint)).Count();
+                    if (item >= 1)
+                        return orderReadingPoint;
+                }
+            }
+
+            throw new Exception("Reading order exception") ;
+        }
+
+        public Point[] GetOrderReadingForPoint(Point current)
+        {
+            Point[] points = new Point[4] 
+            {
+                new Point(current.X, current.Y-1),
+                new Point(current.X-1, current.Y),
+                new Point(current.X+1, current.Y),
+                new Point(current.X, current.Y+1),
+            };
+
+                return points;
         }
 
         private void ExploreSide(Node node, Node target, List<Branch> successPathList, List<Point> branchWay, Point[] avoidThisPoint)

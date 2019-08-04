@@ -38,7 +38,7 @@ namespace Day15
                 var oppositeUnitLabel = GetOppositeUnitLabel(node.Unit.Label);
                 Node[] targetNodes = boardExplorerService.GetTargetNodes(board, oppositeUnitLabel);
                 var avaliableWays = guideService.FindWaysFromCurrentUnit(node, targetNodes, nodesWithUnits);
-                var moveToThisPoint = guideService.GetNextNodeToMove(avaliableWays);
+                var moveToThisPoint = guideService.GetNextNodeToMove(node.Point, avaliableWays);
                 guideService.MoveUnit(board, node, moveToThisPoint);
 
                 printerService.PrintBoard(board);
