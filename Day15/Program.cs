@@ -11,9 +11,6 @@ namespace Day15
         {
             new Engene().Run();
 
-
         }
-
-
     }
 }

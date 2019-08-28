@@ -136,7 +136,7 @@ namespace AdventOfCode
 
         private static void LoadData()
         {
-            string path = @"..\Input.txt";
+            string path = @"..\in2.txt";
             List<string> inputData = new List<string>();
 
             using (StreamReader reader = new StreamReader(path))
